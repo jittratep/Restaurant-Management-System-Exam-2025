@@ -216,10 +216,10 @@ cd frontend && npm audit --audit-level=moderate
 | Severity | จำนวน |
 |----------|--------|
 | Critical | 0      |
-| High     | 0      |
-| Medium   | 0      |
+| High     | 1      |
+| Medium   | 2      |
 | Low      | 0      |
-| **รวม**  | **0**  |
+| **รวม**  | **3**  |
 
 ---
 
@@ -229,57 +229,57 @@ cd frontend && npm audit --audit-level=moderate
 
 ---
 
-### BUG-001: [ชื่อ Bug สั้น ๆ]
+## BUG-001: ระบบอนุญาตให้ชำระเงินน้อยกว่ายอดรวมจริง (Underpayment)
 
-**Severity:** Critical / High / Medium / Low  
-**Priority:** P1 / P2 / P3  
-**Feature:** [Feature ที่มีปัญหา เช่น Payment]  
-**Status:** Open / Fixed
+**Severity:** High
+**Priority:** P1
+**Feature:** Payment
+**Status:** Open
 
-#### Steps to Reproduce
-1. ...
-2. ...
-3. ...
+### Steps to Reproduce
+1. เปิดโต๊ะและสั่งอาหารเพื่อให้มียอดรวม (ตัวอย่าง: ยอดรวม 200 บาท)
+2. ส่งคำสั่งชำระเงินผ่าน API `POST /api/payments`
+3. กำหนดค่าใน Body ให้ `amount` มีค่าน้อยกว่ายอดรวม (ตัวอย่าง: ส่ง `amount: 10`)
+4. ตรวจสอบผลลัพธ์การตอบกลับจากเซิร์ฟเวอร์
 
-#### Expected Result
-> [สิ่งที่ควรเกิดขึ้น]
+### Expected Result
+ระบบควรปฏิเสธการชำระเงินและตอบกลับเป็น `HTTP 400 Bad Request` (Insufficient amount)
 
-#### Actual Result
-> [สิ่งที่เกิดขึ้นจริง]
+### Actual Result
+ระบบตอบกลับเป็น `HTTP 201 Created` ยอมรับการชำระเงิน และบางกรณีคำนวณเงินทอน (change) ออกมาเป็นค่าติดลบ
 
-#### Evidence
-> 📸 วางภาพหน้าจอที่นี่  
-> `![BUG-001 Screenshot](./tests/reports/bug-001.png)`
+### Evidence
+![alt text](/images/bug-001.png)
 
-#### Business Impact
-> [ผลกระทบต่อธุรกิจ — เช่น ลูกค้าชำระเงินไม่ได้ ทำให้ร้านเสียรายได้]
+### Business Impact
+ลูกค้าสามารถจ่ายเงินน้อยกว่าค่าอาหารจริงได้ ทำให้ร้านอาหารสูญเสียรายได้โดยตรง และทำให้รายงานบัญชี/ยอดขายรายวันผิดพลาดอย่างรุนแรง
 
 ---
 
-### BUG-002: [ชื่อ Bug สั้น ๆ]
+## BUG-002: ระบบอนุญาตให้สร้างออเดอร์โดยไม่มีรายการอาหาร (Empty Order)
 
-**Severity:** Critical / High / Medium / Low  
-**Priority:** P1 / P2 / P3  
-**Feature:** [Feature ที่มีปัญหา]  
-**Status:** Open / Fixed
+**Severity:** Medium
+**Priority:** P2
+**Feature:** Order
+**Status:** Open
 
-#### Steps to Reproduce
-1. ...
-2. ...
-3. ...
+### Steps to Reproduce
+1. เข้าสู่ระบบด้วยสิทธิ์ Waiter หรือ Admin เพื่อรับ Token
+2. ส่งคำสั่งสร้างออเดอร์ผ่าน API `POST /api/orders`
+3. กำหนดค่าใน Body โดยส่งอาร์เรย์ของรายการอาหารเป็นค่าว่าง เช่น `{"tableId": 1, "items": []}`
+4. ตรวจสอบผลลัพธ์การตอบกลับ
 
-#### Expected Result
-> [สิ่งที่ควรเกิดขึ้น]
+### Expected Result
+ระบบควรแจ้งเตือนว่าข้อมูลไม่ครบถ้วนและตอบกลับเป็น `HTTP 400 Bad Request` (ต้องมีสินค้าอย่างน้อย 1 รายการ)
 
-#### Actual Result
-> [สิ่งที่เกิดขึ้นจริง]
+### Actual Result
+ระบบตอบกลับเป็น `HTTP 201 Created` หรือ `HTTP 200 OK` และสร้างออเดอร์เปล่าลงในฐานข้อมูลสำเร็จ
 
-#### Evidence
-> 📸 วางภาพหน้าจอที่นี่  
-> `![BUG-002 Screenshot](./tests/reports/bug-002.png)`
+### Evidence
+![alt text](/images/bug-002.png)
 
-#### Business Impact
-> [ผลกระทบต่อธุรกิจ]
+### Business Impact
+พนักงานสามารถเปิดโต๊ะค้างไว้โดยไม่มีรายการอาหาร ทำให้เปลืองพื้นที่ฐานข้อมูล สับสนในการจัดการโต๊ะว่าง/ไม่ว่าง และอาจส่งผลให้แคชเชียร์สับสนเมื่อต้องเรียกดูบิลที่ว่างเปล่า
 
 ---
 
