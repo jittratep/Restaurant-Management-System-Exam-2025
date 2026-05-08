@@ -389,6 +389,7 @@ docker compose up --build
 3. ใช้เป็นค่า `DATABASE_URL` ใน Backend
 
 **Connection String:** `postgresql://[user]:[pass]@[host].neon.tech/[db]?sslmode=require`
+![alt text](images/connection-string.png)
 
 ---
 
