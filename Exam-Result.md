@@ -35,10 +35,10 @@
 
 | Service            | URL                                      | Status |
 |--------------------|------------------------------------------|--------|
-| Frontend (Vercel)  | `https://[your-app].vercel.app`          | ⬜     |
-| Backend (Render)   | `https://[your-api].onrender.com`        | ⬜     |
-| API Health Check   | `https://[your-api].onrender.com/api/health` | ⬜ |
-| Database (Neon)    | `postgresql://...@...neon.tech/...`      | ⬜     |
+| Frontend (Vercel)  | `https://restaurant-management-system-exam-2-eight.vercel.app`          | ✅     |
+| Backend (Render)   | `https://rms-backend-vuc9.onrender.com`        | ✅     |
+| API Health Check   | `https://rms-backend-vuc9.onrender.com/api/health` | ✅ |
+| Database (Neon)    | `postgresql://neondb_owner:npg_NlPZEGagc43e@ep-gentle-paper-aozrr5gg-pooler.c-2.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require`      | ✅     |
 
 ---
 
@@ -432,14 +432,17 @@ Build Command:  npm run build
 
 | # | Feature          | คำสั่ง / ขั้นตอน                              | Expected               | หลักฐาน | ผ่าน/ไม่ผ่าน |
 |---|------------------|-----------------------------------------------|------------------------|---------|--------------|
-| 1 | Health Check     | `GET /api/health`                             | `{"status":"ok"}`      | 📸      | ⬜           |
-| 2 | Login            | Login ด้วย admin บน Frontend URL              | เข้าระบบสำเร็จ        | 📸      | ⬜           |
-| 3 | Open Order & Add | เปิดโต๊ะ → เพิ่มสินค้า → Confirm             | ออเดอร์ถูกบันทึก      | 📸      | ⬜           |
-| 4 | Payment          | ชำระเงิน → ตรวจสอบ change                    | คำนวณเงินทอนถูกต้อง   | 📸      | ⬜           |
+| 1 | Health Check     | `GET /api/health`                             | `{"status":"ok"}`      | 📸      | ✅           |
+| 2 | Login            | Login ด้วย admin บน Frontend URL              | เข้าระบบสำเร็จ        | 📸      | ✅           |
+| 3 | Open Order & Add | เปิดโต๊ะ → เพิ่มสินค้า → Confirm             | ออเดอร์ถูกบันทึก      | 📸      | ✅           |
+| 4 | Payment          | ชำระเงิน → ตรวจสอบ change                    | คำนวณเงินทอนถูกต้อง   | 📸      | ✅           |
 
 **Production Smoke Test ผ่าน: ___ / 4 รายการ**
 
-> 📸 (วางภาพหน้าจอหลักฐานแต่ละ Feature)
+![> 📸 (วางภาพหน้าจอหลักฐานแต่ละ Feature)](images/production-health.png)
+![alt text](images/production-login.png)
+![alt text](images/production-open.png)
+![alt text](images/production-payment.png)
 
 ---
 
